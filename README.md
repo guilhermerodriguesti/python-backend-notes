@@ -5,3 +5,7 @@ Simple notes web app
 ```
 make build && make run
 ```
+
+## Access
+
+http://localhost:5000/
