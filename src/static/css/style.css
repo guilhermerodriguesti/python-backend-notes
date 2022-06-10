@@ -1,0 +1,21 @@
+body {
+    background: white;
+}
+
+@media only screen and (min-width: 767px) {
+    #noteArea {
+        padding-top: 30px;
+        padding-bottom: 12px;
+    }
+}
+  
+#noteField {
+    min-height: 340px;
+    font-family: Hack, monospace;
+    border: none !important;
+    background: none !important;
+}
+
+#errorMessage {
+    z-index: 9999;
+}
