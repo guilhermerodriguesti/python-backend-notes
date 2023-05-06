@@ -11,7 +11,6 @@
 </head>
 <body>
 
-
     <!-- Main area -->
     <div class="ui container" style="margin-top: 50px;">
         <div class="ui basic center aligned segment">
@@ -20,21 +19,54 @@
                 <i class="file alternate outline icon"></i>
                 My ephemeral notes
             </div>
-            <div class="field">
-                <div class="ui search">
-                    <div class="ui icon input">
-                        <input class="prompt" type="text" placeholder="What's your note?">
-                        <i class="search icon"></i>
+
+            <form class="ui form">
+                <div class="field">
+                    <div class="ui input icon">
+                        <input class="prompt" type="text" placeholder="What's your note?" name="note">
+                        <i class="file alternate outline icon"></i>
                     </div>
-                    <div class="results"></div>
                 </div>
-            </div>
+                <button class="ui button" type="submit">Save</button>
+            </form>
             
         </div>
     </div>
 
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script>
-    
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const noteInput = document.querySelector('input[name="note"]');
+            const note = noteInput.value.trim();
+            if (note) {
+                saveNoteInRedis(note);
+                noteInput.value = '';
+            }
+        });
+
+        // Função para salvar a nota no Redis
+        function saveNoteInRedis(note) {
+            // Cria uma requisição HTTP para enviar a nota para o servidor
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/save-note');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            // Configura a função que será executada quando a resposta da requisição chegar
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    console.log('Nota salva com sucesso.');
+                } else {
+                    console.error('Erro ao salvar nota.');
+                }
+            };
+
+            // Envia a nota no corpo da requisição
+            xhr.send(JSON.stringify({ note }));
+        }
     </script>
 
 </body>
